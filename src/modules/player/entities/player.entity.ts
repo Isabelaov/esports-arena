@@ -1,9 +1,12 @@
+import { Team } from 'src/modules/tournament/entities/team.entity';
+import { Tournament } from 'src/modules/tournament/entities/tournament.entity';
 import {
   PrimaryGeneratedColumn,
   Column,
   BeforeInsert,
   BeforeUpdate,
   Entity,
+  ManyToMany,
 } from 'typeorm';
 
 @Entity('players')
@@ -22,6 +25,9 @@ export class Player {
 
   @Column({ type: 'varchar', length: '200', nullable: true })
   address: string;
+
+  @ManyToMany(() => Team, (team) => team.players)
+  teams: Team[];
 
   @BeforeInsert()
   @BeforeUpdate()
