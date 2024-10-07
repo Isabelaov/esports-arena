@@ -19,7 +19,7 @@ import {
   UpdatePlayer,
 } from './docs/player.doc';
 
-@ApiTags('Users')
+@ApiTags('Players')
 @Controller('player')
 export class PlayerController {
   constructor(private readonly playerService: PlayerService) {}

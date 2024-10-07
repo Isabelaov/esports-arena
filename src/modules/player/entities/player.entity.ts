@@ -25,6 +25,9 @@ export class Player {
   @Column({ type: 'varchar', length: '200', nullable: true })
   address: string;
 
+  @Column({ type: 'date', nullable: true, name: 'birth_date' })
+  birthDate?: Date;
+
   @Column({ type: 'bool', default: true, name: 'is_active' })
   isActive: boolean;
 
