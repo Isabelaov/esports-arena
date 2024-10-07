@@ -16,10 +16,10 @@ export class Tournament {
   @Column({ type: 'date' })
   date: Date;
 
-  @Column({ type: 'time' })
+  @Column({ type: 'time', name: 'start_time' })
   startTime: string;
 
-  @Column({ type: 'time' })
+  @Column({ type: 'time', name: 'end_time' })
   endTime: string;
 
   @Column({ type: 'varchar' })
@@ -27,6 +27,9 @@ export class Tournament {
 
   @OneToMany(() => Team, (team) => team.tournament)
   teams: Team[];
+
+  @Column({ type: 'bool', default: true, name: 'is_active' })
+  isActive: boolean;
 
   @BeforeInsert()
   @BeforeUpdate()

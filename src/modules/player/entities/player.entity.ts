@@ -25,7 +25,7 @@ export class Player {
   @Column({ type: 'varchar', length: '200', nullable: true })
   address: string;
 
-  @Column({ type: 'bool', default: true })
+  @Column({ type: 'bool', default: true, name: 'is_active' })
   isActive: boolean;
 
   @ManyToMany(() => Team, (team) => team.players)
