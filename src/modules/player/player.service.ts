@@ -60,7 +60,13 @@ export class PlayerService {
 
   async update(id: string, updatePlayerDto: UpdatePlayerDto): Promise<string> {
     await this.findOne(id);
-    await this.playerRepository.update(id, updatePlayerDto);
+    const { ...data } = updatePlayerDto;
+
+    if (data.password) {
+      data.password = await bcrypt.hash(data.password, 10);
+    }
+
+    await this.playerRepository.update(id, data);
 
     return 'Player updated successfully';
   }
