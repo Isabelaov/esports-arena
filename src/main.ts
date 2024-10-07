@@ -11,7 +11,7 @@ async function bootstrap() {
   const logger = new Logger('Bootstrap');
   const document = SwaggerModule.createDocument(app, swaggerConfig);
 
-  SwaggerModule.setup('docs', app, document);
+  SwaggerModule.setup('api/docs', app, document);
 
   await app.listen(3000, () =>
     logger.log(`Application is running on: http://localhost:3000/api`),
