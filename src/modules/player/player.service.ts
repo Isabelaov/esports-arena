@@ -12,15 +12,15 @@ export class PlayerService {
     return `This action returns all player`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} player`;
+  findOne(id: string) {
+    return `This action returns a ${id} player`;
   }
 
-  update(id: number, updatePlayerDto: UpdatePlayerDto) {
-    return `This action updates a #${id} player`;
+  update(id: string, updatePlayerDto: UpdatePlayerDto) {
+    return `This action updates a ${id} player`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} player`;
   }
 }
