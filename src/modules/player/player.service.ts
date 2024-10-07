@@ -51,6 +51,18 @@ export class PlayerService {
     return result;
   }
 
+  async findByIds(ids: string[]): Promise<Player[]> {
+    const result = await this.playerRepository
+      .createQueryBuilder('player')
+      .where('player.id IN (:...ids)', { ids })
+      .andWhere('player.isActive != FALSE')
+      .getMany();
+
+    if (!result) throw new NotFoundException('Players not found');
+
+    return result;
+  }
+
   async findOne(id: string): Promise<Player> {
     const result: Player = await this.playerRepository.findOneBy({ id });
     if (!result) throw new NotFoundException('Player not found');
