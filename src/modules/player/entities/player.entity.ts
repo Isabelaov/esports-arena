@@ -1,5 +1,4 @@
 import { Team } from 'src/modules/tournament/entities/team.entity';
-import { Tournament } from 'src/modules/tournament/entities/tournament.entity';
 import {
   PrimaryGeneratedColumn,
   Column,
@@ -25,6 +24,9 @@ export class Player {
 
   @Column({ type: 'varchar', length: '200', nullable: true })
   address: string;
+
+  @Column({ type: 'bool', default: true })
+  isActive: boolean;
 
   @ManyToMany(() => Team, (team) => team.players)
   teams: Team[];
