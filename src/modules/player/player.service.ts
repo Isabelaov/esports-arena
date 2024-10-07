@@ -18,7 +18,7 @@ export class PlayerService {
   ) {}
 
   async create(createPlayerDto: CreatePlayerDto): Promise<string> {
-    const { name, password, address, email } = createPlayerDto;
+    const { name, password, address, email, birthDate } = createPlayerDto;
 
     const existingPlayer: Player =
       (await this.playerRepository.findOneBy({ name })) ||
@@ -33,6 +33,7 @@ export class PlayerService {
       email,
       password: hashedPassword,
       address,
+      birthDate,
     });
 
     await this.playerRepository.save(newPlayer);
