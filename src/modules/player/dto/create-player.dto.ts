@@ -38,9 +38,11 @@ export class CreatePlayerDto {
   @StringToUppercase()
   address?: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ example: '2000-01-01' })
   @IsOptional()
-  @Matches(/^\d{4}-\d{2}-\d{2}$/)
+  @Matches(/^\d{4}-\d{2}-\d{2}$/, {
+    message: 'Date must be in YYYY-MM-DD format',
+  })
   @Transform(({ value }) => dateToGMT5(value))
   birthDate?: Date;
 }
