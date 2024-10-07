@@ -1,26 +1,72 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { UpdatePlayerDto } from './dto/update-player.dto';
+import { Player } from './entities/player.entity';
 
 @Injectable()
 export class PlayerService {
-  create(createPlayerDto: CreatePlayerDto) {
-    return 'This action adds a new player';
+  constructor(
+    @InjectRepository(Player)
+    private readonly playerRepository: Repository<Player>,
+  ) {}
+
+  async create(createPlayerDto: CreatePlayerDto): Promise<string> {
+    const { name, password, address, email } = createPlayerDto;
+
+    const existingPlayer: Player =
+      (await this.playerRepository.findOneBy({ name })) ||
+      (await this.playerRepository.findOneBy({ email }));
+
+    if (existingPlayer)
+      throw new BadRequestException('Player already exists (email or name)');
+
+    const hashedPassword: string = await bcrypt.hash(password, 10);
+    const newPlayer: Player = this.playerRepository.create({
+      name,
+      email,
+      password: hashedPassword,
+      address,
+    });
+
+    await this.playerRepository.save(newPlayer);
+
+    return 'Player created successfully';
   }
 
-  findAll() {
-    return `This action returns all player`;
+  async findAll(): Promise<Player[]> {
+    const result: Player[] = await this.playerRepository.find();
+
+    // TODO: implement filters (name, email)
+
+    if (!result) throw new NotFoundException('Players not found');
+
+    return result;
   }
 
-  findOne(id: string) {
-    return `This action returns a ${id} player`;
+  async findOne(id: string): Promise<Player> {
+    const result: Player = await this.playerRepository.findOneBy({ id });
+    if (!result) throw new NotFoundException('Player not found');
+
+    return result;
   }
 
-  update(id: string, updatePlayerDto: UpdatePlayerDto) {
-    return `This action updates a ${id} player`;
+  async update(id: string, updatePlayerDto: UpdatePlayerDto): Promise<string> {
+    await this.findOne(id);
+    await this.playerRepository.update(id, updatePlayerDto);
+
+    return 'Player updated successfully';
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} player`;
+  async remove(id: string): Promise<string> {
+    await this.findOne(id);
+    await this.playerRepository.update(id, { isActive: false });
+    return `Player set as inactive`;
   }
 }

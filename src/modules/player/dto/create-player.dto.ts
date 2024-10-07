@@ -26,4 +26,8 @@ export class CreatePlayerDto {
   @IsOptional()
   @IsString()
   address?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  birthDate?: Date;
 }
