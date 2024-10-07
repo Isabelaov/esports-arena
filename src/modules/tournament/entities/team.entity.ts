@@ -2,6 +2,7 @@ import {
   BeforeInsert,
   BeforeUpdate,
   Column,
+  Entity,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -12,6 +13,7 @@ import { Tournament } from './tournament.entity';
 import { Player } from 'src/modules/player/entities/player.entity';
 import { Result } from './result.entity';
 
+@Entity('teams')
 export class Team {
   @PrimaryGeneratedColumn('uuid')
   id: string;

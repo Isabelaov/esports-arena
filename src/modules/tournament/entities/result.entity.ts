@@ -11,4 +11,7 @@ export class Result {
 
   @Column({ type: 'float', default: 0 })
   score: number;
+
+  @Column({ type: 'bool', default: false })
+  teamWon: boolean;
 }
