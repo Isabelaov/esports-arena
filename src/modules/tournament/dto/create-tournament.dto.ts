@@ -44,17 +44,22 @@ export class CreateTournamentDto {
   @StringToUppercase()
   place: string;
 
-  @ApiProperty()
-  @IsArray()
-  @ArrayNotEmpty()
-  @IsUUID('all', { each: true })
-  playersTeamOne: string[];
+  //Optional fields for creating teams and results too
 
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsArray()
+  @ArrayNotEmpty()
+  @IsUUID('all', { each: true })
+  playersTeamOneIds: string[];
+
+  @ApiPropertyOptional()
+  @IsOptional()
   @ApiProperty()
   @IsArray()
   @ArrayNotEmpty()
   @IsUUID('all', { each: true })
-  playersTeamTwo: string[];
+  playersTeamTwoIds: string[];
 
   @ApiPropertyOptional({ example: 'the gods' })
   @IsOptional()

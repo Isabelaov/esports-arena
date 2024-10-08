@@ -8,6 +8,8 @@ import { getDbConfig } from './common/config/db.config';
 import { AuthModule } from './modules/auth/auth.module';
 import { PlayerModule } from './modules/player/player.module';
 import { TournamentModule } from './modules/tournament/tournament.module';
+import { TeamModule } from './modules/team/team.module';
+import { ResultModule } from './modules/result/result.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { TournamentModule } from './modules/tournament/tournament.module';
     AuthModule,
     PlayerModule,
     TournamentModule,
+    TeamModule,
+    ResultModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -9,5 +9,6 @@ import { Tournament } from '../tournament/entities/tournament.entity';
   imports: [TypeOrmModule.forFeature([Player, Tournament])],
   controllers: [PlayerController],
   providers: [PlayerService],
+  exports: [PlayerService],
 })
 export class PlayerModule {}

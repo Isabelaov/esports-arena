@@ -44,7 +44,7 @@ export class PlayerService {
   async findAll(): Promise<Player[]> {
     const result: Player[] = await this.playerRepository.find();
 
-    // TODO: implement filters (name, email)
+    // TODO: implement filters (name, email) and pagination
 
     if (!result) throw new NotFoundException('Players not found');
 
