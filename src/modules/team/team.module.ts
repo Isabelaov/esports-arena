@@ -10,5 +10,6 @@ import { PlayerModule } from '../player/player.module';
   imports: [TypeOrmModule.forFeature([Team]), TournamentModule, PlayerModule],
   controllers: [TeamController],
   providers: [TeamService],
+  exports: [TeamService],
 })
 export class TeamModule {}
