@@ -1,26 +1,82 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateTournamentDto } from './dto/create-tournament.dto';
 import { UpdateTournamentDto } from './dto/update-tournament.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Tournament } from './entities/tournament.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class TournamentService {
-  create(createTournamentDto: CreateTournamentDto) {
-    return 'This action adds a new tournament';
+  constructor(
+    @InjectRepository(Tournament)
+    private readonly tournamentRepository: Repository<Tournament>,
+  ) {}
+
+  async create(createTournamentDto: CreateTournamentDto) {
+    const { date, startTime, endTime, place } = createTournamentDto;
+    await this.checkPlaceDate(date, place);
+
+    const tournament = this.tournamentRepository.create({
+      date,
+      startTime,
+      endTime,
+      place,
+    });
+
+    await this.tournamentRepository.save(tournament);
+
+    return 'Tournament created successfully';
   }
 
-  findAll() {
-    return `This action returns all tournament`;
+  async checkPlaceDate(date: Date, place: string) {
+    //The date in the database is stored as a "string"
+    const existingTournament = await this.tournamentRepository.findOneBy({
+      date,
+      place,
+    });
+
+    if (existingTournament)
+      throw new BadRequestException('Date and place unavailable');
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} tournament`;
+  async findAll(): Promise<Tournament[]> {
+    const result: Tournament[] = await this.tournamentRepository.find({
+      relations: ['teams', 'teams.players', 'teams.result'],
+    });
+
+    if (!result) throw new NotFoundException('Tournaments not found');
+
+    return result;
   }
 
-  update(id: number, updateTournamentDto: UpdateTournamentDto) {
-    return `This action updates a #${id} tournament`;
+  async findOne(id: string): Promise<Tournament[]> {
+    const result: Tournament[] = await this.tournamentRepository.find({
+      where: { id },
+      relations: ['teams', 'teams.players', 'teams.result'],
+    });
+
+    if (!result) throw new NotFoundException('Tournament not found');
+
+    return result;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} tournament`;
+  async update(
+    id: string,
+    updateTournamentDto: UpdateTournamentDto,
+  ): Promise<string> {
+    await this.findOne(id);
+    await this.tournamentRepository.update(id, updateTournamentDto);
+
+    return 'Tournament updated successfully';
+  }
+
+  async remove(id: string): Promise<string> {
+    await this.findOne(id);
+    await this.tournamentRepository.update(id, { isActive: false });
+    return 'Tournament set as inactive';
   }
 }

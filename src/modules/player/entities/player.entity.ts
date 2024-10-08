@@ -1,4 +1,4 @@
-import { Team } from 'src/modules/tournament/entities/team.entity';
+import { Team } from 'src/modules/team/entities/team.entity';
 import {
   PrimaryGeneratedColumn,
   Column,
