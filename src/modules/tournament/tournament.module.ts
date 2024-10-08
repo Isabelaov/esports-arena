@@ -15,5 +15,6 @@ import { PlayerModule } from '../player/player.module';
   ],
   controllers: [TournamentController],
   providers: [TournamentService],
+  exports: [TournamentService],
 })
 export class TournamentModule {}
