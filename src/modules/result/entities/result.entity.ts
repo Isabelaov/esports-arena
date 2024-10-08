@@ -14,4 +14,7 @@ export class Result {
 
   @Column({ type: 'bool', default: false })
   teamWon: boolean;
+
+  @Column({ type: 'bool', default: true })
+  isActive: boolean;
 }

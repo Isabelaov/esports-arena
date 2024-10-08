@@ -29,7 +29,7 @@ export class Team {
   @Column({ type: 'varchar', nullable: true })
   name?: string;
 
-  @OneToOne(() => Result, (result) => result.team)
+  @OneToOne(() => Result, (result) => result.team, { nullable: true })
   @JoinColumn()
   result: Result;
 
