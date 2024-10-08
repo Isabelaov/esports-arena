@@ -53,8 +53,8 @@ export class TournamentService {
     return result;
   }
 
-  async findOne(id: string): Promise<Tournament[]> {
-    const result: Tournament[] = await this.tournamentRepository.find({
+  async findOne(id: string): Promise<Tournament> {
+    const result: Tournament = await this.tournamentRepository.findOne({
       where: { id },
       relations: ['teams', 'teams.players', 'teams.result'],
     });

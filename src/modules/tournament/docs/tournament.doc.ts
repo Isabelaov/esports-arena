@@ -21,7 +21,7 @@ export function FindTournaments() {
 
 export function UpdateTournament() {
   return applyDecorators(
-    ApiOperation({ summary: 'Update player' }),
+    ApiOperation({ summary: 'Update tournament' }),
     ApiBody({ type: UpdateTournamentDto }),
   );
 }
