@@ -19,7 +19,7 @@ import {
   UpdateTeam,
 } from './docs/team.docs';
 
-@ApiTags('Tournaments')
+@ApiTags('Teams')
 @Controller('team')
 export class TeamController {
   constructor(private readonly teamService: TeamService) {}
