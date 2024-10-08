@@ -7,10 +7,10 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { TournamentService } from './tournament.service';
 import { CreateTournamentDto } from './dto/create-tournament.dto';
 import { UpdateTournamentDto } from './dto/update-tournament.dto';
-import { ApiTags } from '@nestjs/swagger';
 import {
   CreateTournament,
   DeleteTournament,
@@ -39,7 +39,7 @@ export class TournamentController {
   @FindOneTournament()
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.tournamentService.findOne(+id);
+    return this.tournamentService.findOne(id);
   }
 
   @UpdateTournament()
@@ -48,12 +48,12 @@ export class TournamentController {
     @Param('id') id: string,
     @Body() updateTournamentDto: UpdateTournamentDto,
   ) {
-    return this.tournamentService.update(+id, updateTournamentDto);
+    return this.tournamentService.update(id, updateTournamentDto);
   }
 
   @DeleteTournament()
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.tournamentService.remove(+id);
+    return this.tournamentService.remove(id);
   }
 }

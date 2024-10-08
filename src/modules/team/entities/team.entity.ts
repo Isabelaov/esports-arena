@@ -3,15 +3,16 @@ import {
   BeforeUpdate,
   Column,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Tournament } from './tournament.entity';
+import { Tournament } from '../../tournament/entities/tournament.entity';
 import { Player } from 'src/modules/player/entities/player.entity';
-import { Result } from './result.entity';
+import { Result } from '../../result/entities/result.entity';
 
 @Entity('teams')
 export class Team {
@@ -29,6 +30,7 @@ export class Team {
   name?: string;
 
   @OneToOne(() => Result, (result) => result.team)
+  @JoinColumn()
   result: Result;
 
   @BeforeInsert()
