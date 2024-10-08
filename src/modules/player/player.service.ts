@@ -44,7 +44,19 @@ export class PlayerService {
   async findAll(): Promise<Player[]> {
     const result: Player[] = await this.playerRepository.find();
 
-    // TODO: implement filters (name, email)
+    // TODO: implement filters (name, email) and pagination
+
+    if (!result) throw new NotFoundException('Players not found');
+
+    return result;
+  }
+
+  async findByIds(ids: string[]): Promise<Player[]> {
+    const result = await this.playerRepository
+      .createQueryBuilder('player')
+      .where('player.id IN (:...ids)', { ids })
+      .andWhere('player.isActive != FALSE')
+      .getMany();
 
     if (!result) throw new NotFoundException('Players not found');
 
